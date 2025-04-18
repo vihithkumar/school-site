@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>School Events & Holidays</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f8fc;
+      padding: 30px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .section-title {
+      margin-top: 40px;
+      color: #333;
+      font-size: 22px;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>School Events & Holidays</h2>
+
+    <div>
+      <div class="section-title">Upcoming Events</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody id="eventsList">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div class="section-title">Upcoming Holidays</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Occasion</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody id="holidaysList">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const events = [
+      { name: "Science Fair", date: "2025-05-10", description: "School-level science exhibition." },
+      { name: "Sports Day", date: "2025-05-18", description: "Annual sports and athletics meet." },
+      { name: "Cultural Fest", date: "2025-06-02", description: "Music, dance and drama performances." }
+    ];
+
+    const holidays = [
+      { date: "2025-05-01", occasion: "Labour Day", description: "National holiday." },
+      { date: "2025-05-25", occasion: "Summer Vacation Begins", description: "Start of summer break." },
+      { date: "2025-06-15", occasion: "Independence Day", description: "Public holiday celebration." }
+    ];
+
+    const eventsList = document.getElementById("eventsList");
+    const holidaysList = document.getElementById("holidaysList");
+
+    events.forEach(event => {
+      eventsList.innerHTML += `
+        <tr>
+          <td>${event.name}</td>
+          <td>${event.date}</td>
+          <td>${event.description}</td>
+        </tr>
+      `;
+    });
+
+    holidays.forEach(holiday => {
+      holidaysList.innerHTML += `
+        <tr>
+          <td>${holiday.date}</td>
+          <td>${holiday.occasion}</td>
+          <td>${holiday.description}</td>
+        </tr>
+      `;
+    });
+  </script>
+</body>
+</html>

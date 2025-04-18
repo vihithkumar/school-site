@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .attendance-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .subject-name {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .attendance-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 15px;
+            background-color: #eee;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .percentage {
+            color: #3498db;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Attendance Report</h1>
+            <p>Academic Year 2023-2024</p>
+        </div>
+
+        <div id="attendanceContainer">
+            <!-- Attendance cards will be generated here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample attendance data (would typically come from a database)
+        const attendanceData = [
+            {
+                subject: "Mathematics",
+                totalClasses: 45,
+                present: 40,
+                percentage: 88.89
+            },
+            {
+                subject: "Physics",
+                totalClasses: 40,
+                present: 35,
+                percentage: 87.50
+            },
+            {
+                subject: "Chemistry",
+                totalClasses: 38,
+                present: 34,
+                percentage: 89.47
+            },
+            {
+                subject: "English",
+                totalClasses: 42,
+                present: 39,
+                percentage: 92.86
+            },
+            {
+                subject: "Computer Science",
+                totalClasses: 36,
+                present: 33,
+                percentage: 91.67
+            }
+        ];
+
+        // Function to generate attendance cards
+        function generateAttendanceCards() {
+            const container = document.getElementById('attendanceContainer');
+            
+            attendanceData.forEach(subject => {
+                const card = document.createElement('div');
+                card.className = 'attendance-card';
+                
+                card.innerHTML = `
+                    <div class="subject-name">${subject.subject}</div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Total Classes</div>
+                            <div class="stat-value">${subject.totalClasses}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Present</div>
+                            <div class="stat-value">${subject.present}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Percentage</div>
+                            <div class="stat-value percentage">${subject.percentage}%</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${subject.percentage}%"></div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Generate cards when page loads
+        document.addEventListener('DOMContentLoaded', generateAttendanceCards);
+    </script>
+</body>
+</html>

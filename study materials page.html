@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Materials</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .materials-filter {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .material-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .material-subject {
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .material-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .material-meta {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .material-type {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .material-description {
+            margin: 15px 0;
+            color: #555;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .file-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .pdf { color: #e74c3c; }
+        .doc { color: #3498db; }
+        .ppt { color: #e67e22; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Study Materials</h1>
+          
+        </div>
+
+        <div class="materials-filter">
+            <select class="filter-select" id="subjectFilter">
+                <option value="all">All Subjects</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="English">English</option>
+            </select>
+            <select class="filter-select" id="typeFilter">
+                <option value="all">All Types</option>
+                <option value="pdf">PDF</option>
+                <option value="doc">Document</option>
+                <option value="ppt">Presentation</option>
+            </select>
+        </div>
+
+        <div class="materials-grid" id="materialsContainer">
+            <!-- Materials will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample study materials data (replace with database data)
+        const studyMaterials = [
+            {
+                title: "Introduction to Calculus",
+                subject: "Mathematics",
+                type: "pdf",
+                description: "Fundamental concepts of differential calculus",
+                teacher: "Mr. Smith",
+                uploadDate: "2024-03-15",
+                fileUrl: "#",
+                fileSize: "2.4 MB"
+            },
+            {
+                title: "Thermodynamics Notes",
+                subject: "Physics",
+                type: "doc",
+                description: "Complete chapter notes with diagrams",
+                teacher: "Ms. Johnson",
+                uploadDate: "2024-03-14",
+                fileUrl: "#",
+                fileSize: "1.8 MB"
+            },
+            {
+                title: "Organic Chemistry Basics",
+                subject: "Chemistry",
+                type: "ppt",
+                description: "Presentation on hydrocarbon compounds",
+                teacher: "Dr. Brown",
+                uploadDate: "2024-03-13",
+                fileUrl: "#",
+                fileSize: "3.1 MB"
+            }
+        ];
+
+        // File type icons mapping
+        const fileIcons = {
+            pdf: { class: "pdf", icon: "fa-file-pdf" },
+            doc: { class: "doc", icon: "fa-file-word" },
+            ppt: { class: "ppt", icon: "fa-file-powerpoint" }
+        };
+
+        // Function to render materials
+        function renderMaterials(filterSubject = 'all', filterType = 'all') {
+            const container = document.getElementById('materialsContainer');
+            container.innerHTML = '';
+
+            const filtered = studyMaterials.filter(material => {
+                const subjectMatch = filterSubject === 'all' || material.subject === filterSubject;
+                const typeMatch = filterType === 'all' || material.type === filterType;
+                return subjectMatch && typeMatch;
+            });
+
+            filtered.forEach(material => {
+                const card = document.createElement('div');
+                card.className = 'material-card';
+                
+                const fileType = fileIcons[material.type];
+                
+                card.innerHTML = `
+                    <div class="material-subject">
+                        <i class="fas ${fileType.icon} file-icon ${fileType.class}"></i>
+                        ${material.subject}
+                    </div>
+                    <div class="material-title">${material.title}</div>
+                    <div class="material-description">${material.description}</div>
+                    <div class="material-meta">
+                        <span>${material.teacher}</span>
+                        <span>${material.uploadDate}</span>
+                    </div>
+                    <div class="material-meta">
+                        <span class="material-type">
+                            <i class="fas fa-file"></i>
+                            ${material.type.toUpperCase()}
+                        </span>
+                        <span>${material.fileSize}</span>
+                    </div>
+                    <a href="${material.fileUrl}" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        Download
+                    </a>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Filter functionality
+        document.getElementById('subjectFilter').addEventListener('change', (e) => {
+            renderMaterials(e.target.value, document.getElementById('typeFilter').value);
+        });
+
+        document.getElementById('typeFilter').addEventListener('change', (e) => {
+            renderMaterials(document.getElementById('subjectFilter').value, e.target.value);
+        });
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => renderMaterials());
+    </script>
+</body>
+</html>

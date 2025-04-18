@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .assignment-filter {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .assignments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .assignment-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .assignment-subject {
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .assignment-title {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .assignment-details {
+            margin: 10px 0;
+            color: #7f8c8d;
+        }
+
+        .assignment-due {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .assignment-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .status-pending {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .status-submitted {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .status-late {
+            background-color: #e74c3c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Assignments</h1>
+            <p>Submitted by Teachers</p>
+        </div>
+
+        <div class="assignment-filter">
+            <select class="filter-select" id="subjectFilter">
+                <option value="all">All Subjects</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="English">English</option>
+            </select>
+        </div>
+
+        <div class="assignments-grid" id="assignmentsContainer">
+            <!-- Assignments will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample assignments data (replace with database data)
+        const assignments = [
+            {
+                subject: "Mathematics",
+                title: "Algebra Problem Set",
+                description: "Complete exercises 1-20 from chapter 3",
+                dueDate: "2024-03-25",
+                status: "pending",
+                marks: "20",
+                teacher: "Mr. Smith"
+            },
+            {
+                subject: "Physics",
+                title: "Newton's Laws Lab Report",
+                description: "Write lab report for experiment 2B",
+                dueDate: "2024-03-22",
+                status: "submitted",
+                marks: "25",
+                teacher: "Ms. Johnson"
+            },
+            {
+                subject: "Chemistry",
+                title: "Periodic Table Analysis",
+                description: "Research and present on 5 elements",
+                dueDate: "2024-03-20",
+                status: "late",
+                marks: "15",
+                teacher: "Dr. Brown"
+            }
+        ];
+
+        // Function to render assignments
+        function renderAssignments(filterSubject = 'all') {
+            const container = document.getElementById('assignmentsContainer');
+            container.innerHTML = '';
+
+            const filtered = assignments.filter(assignment => 
+                filterSubject === 'all' || assignment.subject === filterSubject
+            );
+
+            filtered.forEach(assignment => {
+                const card = document.createElement('div');
+                card.className = 'assignment-card';
+                
+                const statusClass = {
+                    pending: 'status-pending',
+                    submitted: 'status-submitted',
+                    late: 'status-late'
+                }[assignment.status];
+
+                card.innerHTML = `
+                    <div class="assignment-subject">${assignment.subject}</div>
+                    <div class="assignment-title">${assignment.title}</div>
+                    <div class="assignment-details">
+                        <p>${assignment.description}</p>
+                        <p>Teacher: ${assignment.teacher}</p>
+                        <p class="assignment-due">Due: ${assignment.dueDate}</p>
+                        <p>Marks: ${assignment.marks}</p>
+                    </div>
+                    <div class="assignment-status ${statusClass}">
+                        ${assignment.status.toUpperCase()}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Filter functionality
+        document.getElementById('subjectFilter').addEventListener('change', (e) => {
+            renderAssignments(e.target.value);
+        });
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => renderAssignments());
+    </script>
+</body>
+</html>
